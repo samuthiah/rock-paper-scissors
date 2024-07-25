@@ -1,0 +1,20 @@
+Declare getComputerChoice
+    Pick a random integer between one and three, inclusive 
+
+Declare variable getHumanChoice
+    Ask user for input, rock paper or scissors
+    Assign input to an integer between 1 and 3 
+
+Declare humanScore and computerScore variables with inital values of 0
+
+Declare function playRound
+Use getComputerChoice and getHumanChoice as parameters for playRound
+Compare parameters
+Declare winner or a tie
+Increment score of winner
+
+Declare playGame and roundsPlayed
+While roundsPlayed is less than 5, play another rounds 
+
+
+
