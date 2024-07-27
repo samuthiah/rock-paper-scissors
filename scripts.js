@@ -1,94 +1,128 @@
-// Declare getComputerChoice
-function getComputerChoice() {
-    // Pick a random integer between zero and two, inclusive 
-    return (Math.floor(Math.random() * 3));
+document.addEventListener("DOMContentLoaded", () => {
+
+    function getComputerChoice() {
+        // Pick a random integer between zero and two, inclusive 
+        return (Math.floor(Math.random() * 3));
+    }
+    // Declare humanScore and computerScore variables with inital values of 0
+    let humanScore = 0;
+    let computerScore = 0;
+
+
+    // Declare function playRound
+    function playRound(humanChoice, computerChoice = getComputerChoice()) {
+        let resultsDiv = document.querySelector("#results");
+
+        // Cases where human chooses rock
+        if (humanChoice === 0) {
+            if (computerChoice === 0) {
+                resultsDiv.textContent = "Tie! Pick again";
+                return "tie";
+            }
+            if (computerChoice === 1) {
+                resultsDiv.textContent = "Paper beats rock. You lose!";
+                return "computer";
+            }
+            if (computerChoice === 2) {
+                resultsDiv.textContent = "Rock beats scissors. You win!";
+                return "human";
+            }
+        }
+        // Case where human choose paper
+        if (humanChoice === 1) {
+            if (computerChoice === 0) {
+                resultsDiv.textContent = "Paper beats rock. You win!";
+                return "human";
+            }
+            if (computerChoice === 1) {
+                resultsDiv.textContent = "Tie! Pick again!";
+                return "tie";
+            }
+            if (computerChoice === 2) {
+                resultsDiv.textContent = "Scissors beats paper. You lose!";
+                return "computer";
+            }
+        }
+
+        // Case where human choose scissors
+        if (humanChoice === 2) {
+            if (computerChoice === 0) {
+                resultsDiv.textContent = "Rock beats scissors. You lose!";
+                return "computer";
+            }
+            if (computerChoice === 1) {
+                resultsDiv.textContent = "Scissors beats paper. You win!";
+                return "human";
+            }
+            if (computerChoice === 2) {
+                resultsDiv.textContent = "Tie! Pick again";
+                return "tie";
+            }
+        }
+    }
+
+
+
+
+    
+
+function showScore(winner) {
+    const resultsDiv = document.querySelector("#results");
+    const winnerDiv = document.querySelector("#winner");
+    const humanCurScore = document.querySelector("#humanScore");
+    const computerCurScore = document.querySelector("#computerScore");
+    if (winner === "human") {
+        humanScore++;
+        humanCurScore.textContent = `Your Score: ${humanScore}`;
+
+        if (humanScore >= 5) {
+            winnerDiv.textContent = "You win!"
+        }
+    }
+    else if (winner === "computer") {
+        computerScore++;
+        computerCurScore.textContent = `Opponent's Score: ${computerScore}`;
+        if (computerScore >= 5) {
+            winnerDiv.textContent = "You lose"
+        }
+            
+    }
 }
 
-
-
-// Declare function getHumanChoice
-function getHumanChoice() {
-    // Ask user for input, rock paper or scissors
-    choice = prompt("Rock, paper, or scissors?");
-
-    //Assign input to an integer between 0 and 2 and return that integer
-    if (choice.toUpperCase() === 'ROCK') {
-        return 0;
-    }
-    else if (choice.toUpperCase() === "PAPER") {
-        return 1;
-    } 
-    else if (choice.toUpperCase() ==="SCISSORS") {
-        return 2
-    }
-    else {
-        return getHumanChoice();
-    }
-}
-
-// Declare humanScore and computerScore variables with inital values of 0
-let humanScore = 0;
-let computerScore = 0;
-
-
-// Declare function playRound
-function playRound(computerChoice = getComputerChoice(), humanChoice = getHumanChoice()) {
-    // Compare parameters, if a tie, repeat until there is not a tie
-    if (computerChoice === humanChoice) {
-        console.log("Tie! Pick again");
-        return playRound();
-    }
-    // If one choice minus another choice is 1 modulo 3, it's a winner, and vice versa if it's 2 mod 3
-    // Case where computer wins, returns 0;
-    else if ((computerChoice - humanChoice) % 3 === 1) {
-        if (computerChoice === 0) {
-            console.log("You lose! Rock beats scissors");
+    // Adds an Event listener to play a game for each option
+    const rockButton = document.querySelector("#rockButton");
+    rockButton.addEventListener("click", (e) => {
+        // play a round of RPI
+        roundResult = playRound(0);
+        if (roundResult === "human") {
+            showScore("human");
         }
-        else if (computerChoice === 1) {
-            console.log("You lose! Paper beats rock");
+        if (roundResult === "computer") {
+            showScore("computer");
         }
-        else if (computerChoice === 2) {
-            console.log("You lose! Scissors beats paper")
+    })
+    const paperButton = document.querySelector("#paperButton");
+    paperButton.addEventListener("click", (e) => {
+        roundResult = playRound(1);
+        if (roundResult === "human") {
+            showScore("human");
         }
-        return 0;
-    }
-    // Case where human wins, returns 1
-    else if ((computerChoice - humanChoice) % 3 === 2) {
-        if (computerChoice === 0) {
-            console.log("You win! Paper beats rock");
+        if (roundResult === "computer") {
+            showScore("computer");
         }
-        else if (computerChoice === 1) {
-            console.log("You win! Scissors beats paper");
+    })
+    const scissorsButton = document.querySelector("#scissorsButton");
+    scissorsButton.addEventListener("click", (e) => {
+        roundResult = playRound(2);
+        if (roundResult === "human") {
+            showScore("human");
         }
-        else if (computerChoice === 2) {
-            console.log("You win! Rock beats scissors")
+        if (roundResult === "computer") {
+            showScore("computer");
         }
-        return 1;
-    }
-}
+    })
+})
 
-// Declare playGame
-function playGame() {
-    // While roundsPlayed is less than 5, play another round
-    for (let i = 0; i < 5; i++) {
-        // Play round and increment score of winner
-        if (playRound()) {
-            humanScore++;
-        }
-        else {
-            computerScore++;
-        }
-    }
-
-
-    if (humanScore > computerScore) {
-        alert("You win!");
-    }
-    else {
-        alert("You lose!");
-    }
-}
-playGame();
 
 
 
